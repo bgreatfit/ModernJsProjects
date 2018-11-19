@@ -42,10 +42,18 @@ class UI{
         document.querySelector('#author').value = '';
         document.querySelector('#isbn').value = '';
     }
+     newMethod(){
+       return 'new';
+    }
 
 }
 
 class Store extends UI{
+    static addBookToList(){
+     
+      const hi =  super.newMethod();
+      return hi;
+    }
     static getBooks(){
         let books
        if(localStorage.getItem('books') === null){
@@ -57,8 +65,10 @@ class Store extends UI{
     }
     static displayBooks(){
         const books = Store.getBooks();
+        console.log(books);
         books.forEach(function(book) {
-            UI.prototype.addBookToList.call(book);
+            const ui = new UI();
+            console.log(Store.addBookToList());
         }, this);
     }
     static addBooks(book){
@@ -91,13 +101,16 @@ document.querySelector('#book-form').addEventListener('submit',function(e){
     const title = document.querySelector('#title').value,
     author = document.querySelector('#author').value,
     isbn   = document.querySelector('#isbn').value;
+    
+    console.log(title);
     const ui = new UI();
+       
+        //initialize class
+        const book = new Book(title,author,isbn);
     if(title == '' || author == '' || isbn == ''){
        ui.showAlert('Pls, fill all the input field','error')
     }else{
-        
-        //initialize class
-        const book = new Book(title,author,isbn);
+     
         console.log(book);
         //add book to list
         ui.addBookToList(book);
